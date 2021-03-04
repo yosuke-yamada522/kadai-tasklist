@@ -38,10 +38,13 @@ class TasksController extends Controller
      public function create()
     {
         $task = new Task;
-
-        return view('tasks.create', [
+        if (\Auth::check()) {
+            $user = \Auth::user();
+            return view('tasks.create', [
             'task' => $task,
         ]);
+        }
+        
         return view('welcome', $data);
     }
 
@@ -53,7 +56,9 @@ class TasksController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        if (\Auth::check()) {
+            $user = \Auth::user();
+            $request->validate([
             'status' =>'required|max:10',
             'content' => 'required',
         ]);
@@ -64,6 +69,9 @@ class TasksController extends Controller
         ]);
         
         return redirect('/');
+        }
+        return view('welcome', $data);
+        
     }
 
     /**
@@ -74,12 +82,16 @@ class TasksController extends Controller
      */
     public function show($id)
     {
-        $task = Task::findOrFail($id);
+        if (\Auth::check()) {
+            $user = \Auth::user();
+            $task = Task::findOrFail($id);
 
-        return view('tasks.show', [
-            'user' => $user,
-            'task' => $task,
+            return view('tasks.show', [
+               'user' => $user,
+               'task' => $task,
         ]);
+        }
+        
         return view('welcome', $data);
     }
 
@@ -91,11 +103,14 @@ class TasksController extends Controller
      */
     public function edit($id)
     {
-          $task = Task::findOrFail($id);
+        if (\Auth::check()) {
+            $user = \Auth::user();
+            $task = Task::findOrFail($id);
    
             return view('tasks.edit', [
             'task' => $task,
         ]);
+        }
         return view('welcome', $data);
     }
 
@@ -109,17 +124,22 @@ class TasksController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'status' => 'required|max:10',
-            'content' => 'required',
-        ]);
-        $task = Task::findOrFail($id);
+        if (\Auth::check()) {
+            $user = \Auth::user();
+            $request->validate([
+               'status' => 'required|max:10',
+               'content' => 'required',
+            ]);
+            $task = Task::findOrFail($id);
         
-        $task->status = $request->status;
-        $task->content = $request->content;
-        $task->save();
+            $task->status = $request->status;
+            $task->content = $request->content;
+            $task->save();
 
-        return redirect('/');
+            return redirect('/');
+        }
+        return view('welcome', $data);
+        
     }
 
     /**
