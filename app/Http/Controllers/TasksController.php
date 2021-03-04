@@ -42,6 +42,7 @@ class TasksController extends Controller
         return view('tasks.create', [
             'task' => $task,
         ]);
+        return view('welcome', $data);
     }
 
     /**
@@ -76,8 +77,10 @@ class TasksController extends Controller
         $task = Task::findOrFail($id);
 
         return view('tasks.show', [
+            'user' => $user,
             'task' => $task,
         ]);
+        return view('welcome', $data);
     }
 
     /**
@@ -93,6 +96,7 @@ class TasksController extends Controller
             return view('tasks.edit', [
             'task' => $task,
         ]);
+        return view('welcome', $data);
     }
 
 
