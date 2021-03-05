@@ -115,7 +115,7 @@ class TasksController extends Controller
             'content' => 'required',
         ]);
         $task = Task::findOrFail($id);
-        if (\Auth::id() === $tasks->user_id){
+        if (\Auth::id() === $task->user_id){
             $task->status = $request->status;
             $task->content = $request->content;
             $task->save();
