@@ -1,4 +1,4 @@
-@if (count($tasks) > 0)
+@if (count($users) > 0)
    <ul class="list-unstyled">
       @foreach ($tasks as $task)
          <li class="media mb-3">
